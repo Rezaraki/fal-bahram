@@ -1,0 +1,162 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --border: #2a2a2a;
+  --gold: #c9a84c;
+  --gold-dim: #7a6230;
+  --text: #e0e0e0;
+  --muted: #666;
+  --font: 'Vazirmatn', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--gold), #e8c96a, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 300;
+}
+
+.fortune-card {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.fortune-card.hidden {
+  display: none;
+}
+
+.fortune-card.reveal {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.context-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.line {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--muted);
+  font-weight: 300;
+  transition: color 0.3s;
+}
+
+.line.fortune {
+  color: var(--gold);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.5rem 0.75rem;
+  border-right: 3px solid var(--gold);
+  background: rgba(201, 168, 76, 0.06);
+  border-radius: 0 8px 8px 0;
+}
+
+.song-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.song-label {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.song-name {
+  color: var(--gold-dim);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.btn {
+  background: var(--gold);
+  color: #0d0d0d;
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 2.5rem;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn:hover {
+  opacity: 0.88;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.error {
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+.error.hidden {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 2.2rem; }
+  .fortune-card { padding: 1.5rem 1.25rem; }
+  .line.fortune { font-size: 1.1rem; }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فال بهرام</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>فال بهرام</h1>
+      <p class="subtitle">بذار بهرام بهت بگه چی در انتظارته</p>
+    </header>
+
+    <div id="fortune-card" class="fortune-card hidden">
+      <div id="context-lines" class="context-lines"></div>
+      <div class="song-badge-wrap">
+        <span class="song-label">از آهنگ</span>
+        <span id="song-name" class="song-name"></span>
+      </div>
+    </div>
+
+    <button id="btn" class="btn">فالم را بگیر</button>
+
+    <p id="error" class="error hidden">مشکلی پیش اومد. فایل lyrics.json رو چک کن.</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
