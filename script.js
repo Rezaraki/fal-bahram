@@ -56,7 +56,8 @@ document.getElementById('btn').addEventListener('click', () => {
   });
 
   const fortuneLine = context[2];
-  const shareText = `فال بهرام من:\n«${fortuneLine}»\n— از آهنگ ${song.song}\n\n${location.href}`;
+  const contextFormatted = context.map((l, idx) => idx === 2 ? `«${l}»` : l).join('\n');
+  const shareText = `فال بهرام من:\n\n${contextFormatted}\n\n— از آهنگ ${song.song}\n${location.href}`;
 
   const shareRow = document.getElementById('share-row');
   shareRow.classList.remove('hidden');
