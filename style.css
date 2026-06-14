@@ -195,6 +195,10 @@ h1 {
   margin-bottom: 0.75rem;
 }
 
+.credits-made-by {
+  margin-top: 1.25rem;
+}
+
 .credits-links {
   display: flex;
   flex-wrap: wrap;
