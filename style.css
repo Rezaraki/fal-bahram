@@ -57,6 +57,13 @@ h1 {
   font-weight: 300;
 }
 
+.tagline {
+  color: var(--gold-dim);
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin-top: 0.4rem;
+}
+
 .fortune-card {
   width: 100%;
   background: var(--surface);
@@ -186,6 +193,7 @@ h1 {
   text-align: center;
   border-top: 1px solid var(--border);
   padding-top: 1.5rem;
+  margin-top: 2rem;
   width: 100%;
 }
 
