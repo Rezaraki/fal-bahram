@@ -55,8 +55,28 @@ document.getElementById('btn').addEventListener('click', () => {
     mediaEl.appendChild(a);
   });
 
+  const fortuneLine = context[2];
+  const shareText = `فال بهرام من:\n«${fortuneLine}»\n— از آهنگ ${song.song}\n\nفال خودت رو بگیر: ${location.href}`;
+
+  document.getElementById('share-twitter').onclick = () => {
+    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText), '_blank');
+  };
+  document.getElementById('share-whatsapp').onclick = () => {
+    window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
+  };
+  document.getElementById('share-telegram').onclick = () => {
+    window.open('https://t.me/share/url?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(`فال بهرام من:\n«${fortuneLine}»\n— از آهنگ ${song.song}`), '_blank');
+  };
+  document.getElementById('share-copy').onclick = () => {
+    navigator.clipboard.writeText(shareText).then(() => {
+      const btn = document.getElementById('share-copy');
+      btn.textContent = 'کپی شد ✓';
+      setTimeout(() => { btn.textContent = 'کپی'; }, 2000);
+    });
+  };
+
   card.classList.remove('hidden', 'reveal');
-  void card.offsetWidth; // force reflow to restart animation
+  void card.offsetWidth;
   card.classList.add('reveal');
 });
 

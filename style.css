@@ -159,6 +159,40 @@ h1 {
 
 .media-icon { font-size: 0.85rem; }
 
+.share-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.share-label {
+  color: var(--muted);
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+}
+
+.share-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.75rem;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  color: #fff;
+}
+
+.share-btn:hover { opacity: 0.8; }
+
+.share-btn--twitter  { background: #000; }
+.share-btn--whatsapp { background: #25d366; }
+.share-btn--telegram { background: #229ed9; }
+.share-btn--copy     { background: var(--border); color: var(--text); }
+
 .btn {
   background: var(--gold);
   color: #0d0d0d;
