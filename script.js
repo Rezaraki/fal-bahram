@@ -33,6 +33,25 @@ document.getElementById('btn').addEventListener('click', () => {
 
   songEl.textContent = song.song;
 
+  const mediaEl = document.getElementById('media-links');
+  mediaEl.innerHTML = '';
+  const links = song.links || {};
+  const platforms = [
+    { key: 'youtube',    label: 'YouTube',    icon: '▶' },
+    { key: 'spotify',    label: 'Spotify',    icon: '♫' },
+    { key: 'soundcloud', label: 'SoundCloud', icon: '☁' },
+  ];
+  platforms.forEach(({ key, label, icon }) => {
+    if (!links[key]) return;
+    const a = document.createElement('a');
+    a.href = links[key];
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.className = `media-link media-link--${key}`;
+    a.innerHTML = `<span class="media-icon">${icon}</span>${label}`;
+    mediaEl.appendChild(a);
+  });
+
   card.classList.remove('hidden', 'reveal');
   void card.offsetWidth; // force reflow to restart animation
   card.classList.add('reveal');

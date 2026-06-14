@@ -39,17 +39,32 @@ def get_song_paths(page=1):
     return pairs, next_page
 
 
-def get_lyrics(path, title):
+def get_song_data(path, title):
     url = BASE + path
     try:
         r = requests.get(url, headers=HEADERS, timeout=15)
     except Exception as e:
         print(f"  Error fetching {path}: {e}")
-        return None
+        return None, {}
+
+    # Extract media links from embedded JSON
+    links = {}
+    data = parse_preloaded(r.text)
+    if data:
+        songs_ent = data.get("entities", {}).get("songs", {})
+        if songs_ent:
+            s = next(iter(songs_ent.values()))
+            if s.get("youtubeUrl"):
+                links["youtube"] = s["youtubeUrl"]
+            if s.get("soundcloudUrl"):
+                links["soundcloud"] = s["soundcloudUrl"]
+            if s.get("spotifyUuid"):
+                links["spotify"] = f"https://open.spotify.com/track/{s['spotifyUuid']}"
+
     soup = BeautifulSoup(r.text, "html.parser")
     containers = soup.find_all("div", attrs={"data-lyrics-container": "true"})
     if not containers:
-        return None
+        return None, links
     lines = []
     for c in containers:
         for br in c.find_all("br"):
@@ -62,12 +77,10 @@ def get_lyrics(path, title):
                 continue
             if META_RE.match(chunk):
                 continue
-            # Drop first line if it looks like "N ContributorsTITLE Lyrics..."
             lines.append(chunk)
-    # Drop the first line which always contains contributor + title metadata
     if lines and ("Lyrics" in lines[0] or "Contributors" in lines[0]):
         lines = lines[1:]
-    return lines if len(lines) >= 5 else None
+    return (lines if len(lines) >= 5 else None), links
 
 
 # Collect all song paths
@@ -89,10 +102,14 @@ print("Fetching lyrics...\n")
 songs = []
 for i, (path, title) in enumerate(all_songs_meta, 1):
     print(f"[{i}/{len(all_songs_meta)}] {title}")
-    lyrics = get_lyrics(path, title)
+    lyrics, links = get_song_data(path, title)
     if lyrics:
-        songs.append({"song": title, "lyrics": lyrics})
-        print(f"  ✓ {len(lyrics)} lines")
+        entry = {"song": title, "lyrics": lyrics}
+        if links:
+            entry["links"] = links
+        songs.append(entry)
+        link_str = " ".join(links.keys()) if links else "no links"
+        print(f"  ✓ {len(lyrics)} lines [{link_str}]")
     else:
         print(f"  ✗ skipped (no lyrics or too short)")
     time.sleep(0.6)

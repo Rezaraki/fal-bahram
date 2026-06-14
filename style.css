@@ -125,6 +125,33 @@ h1 {
   font-weight: 700;
 }
 
+.media-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.media-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-family: var(--font);
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.media-link:hover { opacity: 0.75; }
+
+.media-link--youtube    { background: #ff0000; color: #fff; }
+.media-link--spotify    { background: #1db954; color: #fff; }
+.media-link--soundcloud { background: #ff5500; color: #fff; }
+
+.media-icon { font-size: 0.85rem; }
+
 .btn {
   background: var(--gold);
   color: #0d0d0d;
