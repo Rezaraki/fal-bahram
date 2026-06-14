@@ -56,22 +56,35 @@ document.getElementById('btn').addEventListener('click', () => {
   });
 
   const fortuneLine = context[2];
-  const shareText = `فال بهرام من:\n«${fortuneLine}»\n— از آهنگ ${song.song}\n\nفال خودت رو بگیر: ${location.href}`;
+  const shareText = `فال بهرام من:\n«${fortuneLine}»\n— از آهنگ ${song.song}\n\n${location.href}`;
 
-  document.getElementById('share-twitter').onclick = () => {
+  const shareRow = document.getElementById('share-row');
+  shareRow.classList.remove('hidden');
+
+  const nativeBtn = document.getElementById('share-native');
+  if (navigator.share) {
+    nativeBtn.style.display = 'inline-block';
+    nativeBtn.onclick = () => navigator.share({ text: shareText });
+  } else {
+    nativeBtn.style.display = 'none';
+  }
+
+  document.getElementById('share-twitter').onclick = () =>
     window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText), '_blank');
-  };
-  document.getElementById('share-whatsapp').onclick = () => {
+
+  document.getElementById('share-whatsapp').onclick = () =>
     window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
-  };
-  document.getElementById('share-telegram').onclick = () => {
-    window.open('https://t.me/share/url?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(`فال بهرام من:\n«${fortuneLine}»\n— از آهنگ ${song.song}`), '_blank');
-  };
+
+  document.getElementById('share-telegram').onclick = () =>
+    window.open('https://t.me/share/url?url=' + encodeURIComponent(location.href) +
+      '&text=' + encodeURIComponent(`فال بهرام من:\n«${fortuneLine}»\n— از آهنگ ${song.song}`), '_blank');
+
   document.getElementById('share-copy').onclick = () => {
     navigator.clipboard.writeText(shareText).then(() => {
       const btn = document.getElementById('share-copy');
-      btn.textContent = 'کپی شد ✓';
-      setTimeout(() => { btn.textContent = 'کپی'; }, 2000);
+      const orig = btn.textContent;
+      btn.textContent = '✓ کپی شد';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
     });
   };
 
