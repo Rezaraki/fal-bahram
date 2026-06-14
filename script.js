@@ -36,15 +36,18 @@ document.getElementById('btn').addEventListener('click', () => {
   const mediaEl = document.getElementById('media-links');
   mediaEl.innerHTML = '';
   const links = song.links || {};
+  const spotifyUrl = links.spotify ||
+    `https://open.spotify.com/search/${encodeURIComponent('Bahram ' + song.song)}`;
+
   const platforms = [
-    { key: 'youtube',    label: 'YouTube',    icon: '▶' },
-    { key: 'spotify',    label: 'Spotify',    icon: '♫' },
-    { key: 'soundcloud', label: 'SoundCloud', icon: '☁' },
+    { key: 'youtube',    label: 'YouTube',    icon: '▶', href: links.youtube },
+    { key: 'spotify',    label: 'Spotify',    icon: '♫', href: spotifyUrl },
+    { key: 'soundcloud', label: 'SoundCloud', icon: '☁', href: links.soundcloud },
   ];
-  platforms.forEach(({ key, label, icon }) => {
-    if (!links[key]) return;
+  platforms.forEach(({ key, label, icon, href }) => {
+    if (!href) return;
     const a = document.createElement('a');
-    a.href = links[key];
+    a.href = href;
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
     a.className = `media-link media-link--${key}`;
