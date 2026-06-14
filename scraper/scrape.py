@@ -27,19 +27,16 @@ def parse_preloaded(html):
     return json.loads(decoded)
 
 
+ARTIST_ID = 26835  # Bahram on Genius
+
 def get_song_paths(page=1):
-    url = f"{BASE}/artists/Bahram/songs?page={page}"
+    url = f"{BASE}/api/artists/{ARTIST_ID}/songs?per_page=50&page={page}&sort=title"
     r = requests.get(url, headers=HEADERS, timeout=15)
-    data = parse_preloaded(r.text)
-    if not data:
-        return [], None
-    disc = data.get("artistDiscography", {})
-    entities = data.get("entities", {}).get("songs", {})
-    items = disc.get("items", [])
-    paths = [entities[str(item["id"])]["path"] for item in items if str(item["id"]) in entities]
-    titles = {str(item["id"]): entities[str(item["id"])]["title"] for item in items if str(item["id"]) in entities}
-    next_page = disc.get("nextPage")
-    return list(zip(paths, [titles[str(item["id"])] for item in items if str(item["id"]) in entities])), next_page
+    d = r.json()
+    songs = d.get("response", {}).get("songs", [])
+    next_page = d.get("response", {}).get("next_page")
+    pairs = [(s["path"], s["title"]) for s in songs if s.get("path") and s.get("title")]
+    return pairs, next_page
 
 
 def get_lyrics(path, title):
@@ -73,19 +70,15 @@ def get_lyrics(path, title):
     return lines if len(lines) >= 5 else None
 
 
-# Collect all song paths (Genius paginates; stop when we see duplicate IDs)
+# Collect all song paths
 print("Fetching song list...")
 all_songs_meta = []
-seen_paths = set()
 page = 1
 while True:
     songs_on_page, next_page = get_song_paths(page)
-    new_songs = [(p, t) for p, t in songs_on_page if p not in seen_paths]
-    for p, t in new_songs:
-        seen_paths.add(p)
-    all_songs_meta.extend(new_songs)
-    print(f"  Page {page}: {len(new_songs)} new songs (total: {len(all_songs_meta)})")
-    if not new_songs or not next_page or next_page <= page:
+    all_songs_meta.extend(songs_on_page)
+    print(f"  Page {page}: {len(songs_on_page)} songs (total: {len(all_songs_meta)})")
+    if not songs_on_page or not next_page:
         break
     page = next_page
     time.sleep(0.5)
